@@ -1,44 +1,9 @@
 import { createConfig, http } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { createWeb3Modal } from '@web3modal/wagmi';
-import { supabase } from "@/integrations/supabase/client";
 
-// Initialize with empty project ID
-let projectId = '';
-
-// Function to initialize Web3Modal
-const initializeWeb3Modal = async () => {
-  try {
-    const { data, error } = await supabase
-      .from('secrets')
-      .select('value')
-      .eq('name', 'REOWN_PROJECT_KEY')
-      .single();
-
-    if (error) {
-      console.error('Error fetching project key:', error);
-      return;
-    }
-
-    projectId = data?.value || '';
-
-    // Create modal with retrieved project ID
-    createWeb3Modal({
-      wagmiConfig: config,
-      projectId,
-      defaultChain: base,
-      themeMode: 'dark',
-      themeVariables: {
-        '--w3m-font-family': 'Bebas Neue, sans-serif',
-        '--w3m-accent': '#8B0000',
-        '--w3m-color-mix': '#8B0000',
-        '--w3m-color-mix-strength': 30,
-      },
-    });
-  } catch (err) {
-    console.error('Failed to initialize Web3Modal:', err);
-  }
-};
+// Since this is a public key, it's fine to store it directly in the code
+const PROJECT_ID = 'YOUR_PROJECT_ID';
 
 // Wagmi config
 export const config = createConfig({
@@ -48,8 +13,19 @@ export const config = createConfig({
   },
 });
 
-// Initialize Web3Modal
-initializeWeb3Modal();
+// Create modal
+createWeb3Modal({
+  wagmiConfig: config,
+  projectId: PROJECT_ID,
+  defaultChain: base,
+  themeMode: 'dark',
+  themeVariables: {
+    '--w3m-font-family': 'Bebas Neue, sans-serif',
+    '--w3m-accent': '#8B0000',
+    '--w3m-color-mix': '#8B0000',
+    '--w3m-color-mix-strength': 30,
+  },
+});
 
 // Export for use in other files
-export { projectId };
+export { PROJECT_ID };
