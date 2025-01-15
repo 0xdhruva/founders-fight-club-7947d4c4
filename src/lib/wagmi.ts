@@ -23,7 +23,7 @@ export const config = createConfig({
     new WalletConnectConnector({
       chains,
       options: {
-        projectId: process.env.VITE_WALLET_CONNECT_PROJECT_ID || '',
+        projectId: import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID || '',
       },
     }),
   ],
