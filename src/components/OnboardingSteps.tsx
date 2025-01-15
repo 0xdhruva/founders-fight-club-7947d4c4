@@ -31,7 +31,7 @@ const OnboardingSteps = ({ projectId }: OnboardingStepsProps) => {
       });
 
       // Initialize wallet connection
-      const session = await walletKit.signIn();
+      const session = await walletKit.connect();
       
       if (session) {
         setStep1Complete(true);
