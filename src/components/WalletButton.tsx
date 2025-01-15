@@ -1,24 +1,24 @@
-import { useAccount, useConnect, useDisconnect } from 'wagmi'
-import { Button } from './ui/button'
-import { useToast } from './ui/use-toast'
+import { useModal } from "connectkit";
+import { useAccount } from "wagmi";
+import { Button } from "./ui/button";
+import { useToast } from "./ui/use-toast";
 
 export default function WalletButton() {
-  const { address, isConnected } = useAccount()
-  const { disconnect } = useDisconnect()
-  const { toast } = useToast()
+  const { address, isConnected } = useAccount();
+  const { setOpen } = useModal();
+  const { toast } = useToast();
 
   const handleClick = () => {
     if (isConnected) {
-      disconnect()
+      setOpen(false);
       toast({
         title: "Wallet disconnected",
         description: "Your wallet has been disconnected successfully."
-      })
+      });
     } else {
-      // The Web3Modal will be triggered automatically
-      document.getElementById('w3m-button')?.click()
+      setOpen(true);
     }
-  }
+  };
 
   return (
     <Button 
@@ -27,5 +27,5 @@ export default function WalletButton() {
     >
       {isConnected ? `${address?.slice(0, 6)}...${address?.slice(-4)}` : 'Connect Wallet'}
     </Button>
-  )
+  );
 }
