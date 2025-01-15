@@ -1,10 +1,11 @@
 import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
 import { base, baseSepolia } from 'viem/chains'
-import { supabase } from '@/integrations/supabase/client'
 
-const projectId = await supabase.functions.invoke('get-reown-key', {
-  body: { key: 'REOWN_PROJECT_KEY' }
-})
+// Only Base chains
+const chains = [base, baseSepolia] as const
+
+// Hardcode the project ID for now since we're only using public chains
+const projectId = 'YOUR_PROJECT_ID' // This should be replaced with your actual project ID
 
 const metadata = {
   name: 'Founders Fight Club',
@@ -13,12 +14,10 @@ const metadata = {
   icons: ['https://avatars.githubusercontent.com/u/37784886']
 }
 
-// Only Base chains
-const chains = [base, baseSepolia] as const
 export const config = defaultWagmiConfig({ 
   chains, 
-  projectId: projectId.data, 
+  projectId, 
   metadata 
 })
 
-createWeb3Modal({ wagmiConfig: config, projectId: projectId.data, chains })
+createWeb3Modal({ wagmiConfig: config, projectId, chains })
