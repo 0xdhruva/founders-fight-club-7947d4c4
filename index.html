@@ -12,7 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
     <script>
       window.global = window;
-      window.Buffer = window.Buffer || require('buffer').Buffer;
+      var Buffer = require('buffer').Buffer;
+      window.Buffer = Buffer;
     </script>
   </head>
 
