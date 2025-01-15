@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { useToast } from './ui/use-toast';
-import { useConnect } from '@coinbase/onchainkit';
+import { ConnectButton } from '@coinbase/onchainkit';
 
 interface OnboardingStepsProps {
   projectId: string;
@@ -9,32 +9,14 @@ interface OnboardingStepsProps {
 
 const OnboardingSteps = ({ projectId }: OnboardingStepsProps) => {
   const [step1Complete, setStep1Complete] = useState(false);
-  const [isConnecting, setIsConnecting] = useState(false);
   const { toast } = useToast();
-  const { connect, address } = useConnect();
 
-  const handleWalletConnect = async () => {
-    try {
-      setIsConnecting(true);
-      await connect();
-      
-      if (address) {
-        setStep1Complete(true);
-        toast({
-          title: "Success",
-          description: "Wallet connected successfully",
-        });
-      }
-    } catch (error) {
-      console.error('Error connecting wallet:', error);
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Failed to connect wallet. Please try again.",
-      });
-    } finally {
-      setIsConnecting(false);
-    }
+  const handleSuccess = () => {
+    setStep1Complete(true);
+    toast({
+      title: "Success",
+      description: "Wallet connected successfully",
+    });
   };
 
   return (
@@ -48,13 +30,10 @@ const OnboardingSteps = ({ projectId }: OnboardingStepsProps) => {
         <h3 className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
           Step 1: Stake $100 USDC
         </h3>
-        <Button
-          onClick={handleWalletConnect}
+        <ConnectButton 
+          onSuccess={handleSuccess}
           className="w-full text-xl tracking-wider py-3"
-          disabled={step1Complete || isConnecting}
-        >
-          {step1Complete ? 'Wallet Connected' : isConnecting ? 'Connecting...' : 'Connect Wallet'}
-        </Button>
+        />
       </div>
 
       {/* Step 2 */}
