@@ -1,21 +1,36 @@
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { useToast } from './ui/use-toast';
+import { useAccount, useConnect } from 'wagmi';
+import { InjectedConnector } from 'wagmi/connectors/injected';
 
 interface OnboardingStepsProps {
   projectId: string;
 }
 
 const OnboardingSteps = ({ projectId }: OnboardingStepsProps) => {
-  const [step1Complete, setStep1Complete] = useState(false);
+  const [walletConnected, setWalletConnected] = useState(false);
   const { toast } = useToast();
+  const { address } = useAccount();
+  const { connect } = useConnect({
+    connector: new InjectedConnector(),
+  });
 
-  const handleStake = () => {
-    setStep1Complete(true);
-    toast({
-      title: "Success",
-      description: "Stake successful!",
-    });
+  const handleWalletConnect = async () => {
+    try {
+      connect();
+      setWalletConnected(true);
+      toast({
+        title: "Success",
+        description: "Wallet connected successfully!",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to connect wallet",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -24,21 +39,21 @@ const OnboardingSteps = ({ projectId }: OnboardingStepsProps) => {
         Welcome to Founders Fight Club
       </h2>
       
-      {/* Step 1 */}
+      {/* Step 1: Connect Wallet */}
       <div className="space-y-4">
         <h3 className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
-          Step 1: Stake $100 USDC
+          Step 1: Connect Wallet
         </h3>
         <Button 
-          onClick={handleStake}
+          onClick={handleWalletConnect}
           className="w-full text-xl tracking-wider py-3"
-          disabled={step1Complete}
+          disabled={walletConnected}
         >
-          {step1Complete ? 'Staked Successfully' : 'Stake $100 USDC'}
+          {walletConnected ? `Connected: ${address?.slice(0, 6)}...${address?.slice(-4)}` : 'Connect Wallet'}
         </Button>
       </div>
 
-      {/* Step 2 */}
+      {/* Step 2: Join Telegram */}
       <div className="space-y-4">
         <h3 className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
           Step 2: Join Private Group
@@ -48,7 +63,7 @@ const OnboardingSteps = ({ projectId }: OnboardingStepsProps) => {
           target="_blank"
           rel="noopener noreferrer"
           className={`w-full button-primary text-xl tracking-wider py-3 block text-center
-            ${!step1Complete ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
+            ${!walletConnected ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
         >
           Join Telegram Group
         </a>
