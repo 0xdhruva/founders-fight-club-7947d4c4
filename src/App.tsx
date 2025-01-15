@@ -7,6 +7,9 @@ import { WagmiConfig } from 'wagmi';
 import { config } from './config/wagmi';
 import Index from "./pages/Index";
 
+// Initialize the modal
+import './config/wagmi';
+
 const queryClient = new QueryClient();
 
 const App = () => (

@@ -4,7 +4,6 @@ import { Wallet } from "lucide-react";
 
 export default function WalletButton() {
   const { address, isConnected } = useAccount();
-  const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
   const { toast } = useToast();
 
@@ -15,17 +14,6 @@ export default function WalletButton() {
         title: "Wallet disconnected",
         description: "Your wallet has been disconnected successfully."
       });
-    } else {
-      const connector = connectors[0]; // injected connector (MetaMask)
-      try {
-        connect({ connector });
-      } catch (error) {
-        toast({
-          title: "Connection Error",
-          description: "Failed to connect wallet. Please try again.",
-          variant: "destructive"
-        });
-      }
     }
   };
 
