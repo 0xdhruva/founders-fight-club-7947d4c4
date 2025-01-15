@@ -1,10 +1,7 @@
 import { createRoot } from 'react-dom/client';
-import { OnchainKitProvider } from '@coinbase/onchainkit';
 import App from './App.tsx';
 import './index.css';
 
 createRoot(document.getElementById("root")!).render(
-  <OnchainKitProvider>
-    <App />
-  </OnchainKitProvider>
+  <App />
 );
