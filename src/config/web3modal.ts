@@ -1,5 +1,5 @@
 import { createWeb3Modal, defaultWagmiConfig } from '@web3modal/wagmi/react'
-import { baseMainnet, baseSepolia } from 'viem/chains'
+import { base, baseSepolia } from 'viem/chains'
 import { supabase } from '@/integrations/supabase/client'
 
 const projectId = await supabase.functions.invoke('get-reown-key', {
@@ -14,7 +14,11 @@ const metadata = {
 }
 
 // Only Base chains
-const chains = [baseMainnet, baseSepolia]
-export const config = defaultWagmiConfig({ chains, projectId: projectId.data, metadata })
+const chains = [base, baseSepolia] as const
+export const config = defaultWagmiConfig({ 
+  chains, 
+  projectId: projectId.data, 
+  metadata 
+})
 
 createWeb3Modal({ wagmiConfig: config, projectId: projectId.data, chains })
