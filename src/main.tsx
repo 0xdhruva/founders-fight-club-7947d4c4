@@ -1,11 +1,10 @@
 import { createRoot } from 'react-dom/client';
-import { WagmiConfig } from 'wagmi';
+import { OnchainProvider } from '@coinbase/onchainkit';
 import App from './App.tsx';
 import './index.css';
-import { config } from './lib/wagmi';
 
 createRoot(document.getElementById("root")!).render(
-  <WagmiConfig config={config}>
+  <OnchainProvider>
     <App />
-  </WagmiConfig>
+  </OnchainProvider>
 );
