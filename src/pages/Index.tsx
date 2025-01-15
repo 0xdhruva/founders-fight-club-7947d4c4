@@ -1,28 +1,28 @@
 import { useState } from 'react';
-import { useToast } from "@/components/ui/use-toast";
 import Navbar from '../components/Navbar';
 import ParticleBackground from '../components/ParticleBackground';
 
 const Index = () => {
   const [password, setPassword] = useState('');
-  const { toast } = useToast();
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+  const [step1Complete, setStep1Complete] = useState(false);
 
   const handlePasswordSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (password.toLowerCase() === 'fight') {
-      // TODO: Implement successful authentication logic
-      toast({
-        title: "Welcome to Founders Fight Club",
-        description: "You have proven yourself worthy.",
-      });
+      setError('');
+      setSuccess(true);
     } else {
-      toast({
-        variant: "destructive",
-        title: "Access Denied",
-        description: "You are not worthy.",
-      });
+      setError('You are not worthy.');
       setPassword('');
     }
+  };
+
+  const handleWalletConnect = async () => {
+    // Placeholder for wallet connect functionality
+    console.log('Connecting wallet...');
+    setStep1Complete(true);
   };
 
   return (
@@ -32,52 +32,91 @@ const Index = () => {
 
       <section className="pt-32 pb-20 px-6">
         <div className="max-w-3xl mx-auto">
-          {/* Rules Section */}
-          <div className="space-y-6 mb-16">
-            <p className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
-              1. You do not talk about Founders Fight Club
-            </p>
-            <p className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
-              2. You DO NOT talk about Founders Fight Club
-            </p>
-            <p className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
-              3. Put your money where your mouth is
-            </p>
-            <p className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
-              4. Submit three proofs of workouts every week
-            </p>
-            <p className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
-              5. If you fail, you're out
-            </p>
-            <p className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
-              6. One week at a time
-            </p>
-          </div>
+          {!success ? (
+            <>
+              {/* Rules Section */}
+              <div className="space-y-6 mb-16">
+                <p className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
+                  1. You do not talk about Founders Fight Club
+                </p>
+                <p className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
+                  2. You DO NOT talk about Founders Fight Club
+                </p>
+                <p className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
+                  3. Put your money where your mouth is
+                </p>
+                <p className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
+                  4. Submit three proofs of workouts every week
+                </p>
+                <p className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
+                  5. If you fail, you're out
+                </p>
+                <p className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
+                  6. One week at a time
+                </p>
+              </div>
 
-          {/* Password Form */}
-          <form onSubmit={handlePasswordSubmit} className="mt-12 space-y-6">
-            <div className="relative">
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password please"
-                className="w-full bg-transparent border-b-2 border-ffc-steel/30 px-4 py-3 text-2xl tracking-wider
-                          focus:outline-none focus:border-ffc-red/50 transition-colors
-                          placeholder:text-ffc-steel/50"
-              />
+              {/* Password Form */}
+              <form onSubmit={handlePasswordSubmit} className="mt-12 space-y-6">
+                <div className="relative">
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Password please"
+                    className="w-full bg-transparent border-b-2 border-ffc-steel/30 px-4 py-3 text-2xl tracking-wider
+                              focus:outline-none focus:border-ffc-red/50 transition-colors
+                              placeholder:text-ffc-steel/50"
+                  />
+                </div>
+                {error && (
+                  <p className="text-ffc-red text-xl tracking-wider">{error}</p>
+                )}
+                <button
+                  type="submit"
+                  className="w-full button-primary text-2xl tracking-wider py-4"
+                >
+                  Enter
+                </button>
+              </form>
+            </>
+          ) : (
+            <div className="space-y-8">
+              <h2 className="text-4xl md:text-5xl text-ffc-white tracking-wider mb-8">
+                Welcome to Founders Fight Club
+              </h2>
+              
+              {/* Step 1 */}
+              <div className="space-y-4">
+                <h3 className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
+                  Step 1: Stake $100 USDC
+                </h3>
+                <button
+                  onClick={handleWalletConnect}
+                  className="w-full button-primary text-xl tracking-wider py-3"
+                  disabled={step1Complete}
+                >
+                  {step1Complete ? 'Wallet Connected' : 'Connect Wallet'}
+                </button>
+              </div>
+
+              {/* Step 2 */}
+              <div className="space-y-4">
+                <h3 className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
+                  Step 2: Join Private Group
+                </h3>
+                <a
+                  href="https://t.me/+K74j-Q0Gwkw5NmI1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`w-full button-primary text-xl tracking-wider py-3 block text-center
+                    ${!step1Complete ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
+                >
+                  Join Telegram Group
+                </a>
+              </div>
             </div>
-            <button
-              type="submit"
-              className="w-full button-primary text-2xl tracking-wider py-4"
-            >
-              Enter
-            </button>
-          </form>
-
-          <p className="mt-12 text-xl md:text-2xl text-ffc-white/60 tracking-wider text-center italic">
-            "Better to be a Warrior in a Garden than a Gardener in a War"
-          </p>
+          )}
         </div>
       </section>
     </div>
