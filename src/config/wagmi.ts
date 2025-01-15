@@ -2,8 +2,8 @@ import { createConfig, http } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { createWeb3Modal } from '@web3modal/wagmi';
 
-// Replace this with your actual WalletConnect project ID
-const PROJECT_ID = 'YOUR_PROJECT_ID';
+// Replace YOUR_ACTUAL_PROJECT_ID with the ID you copied from WalletConnect Cloud
+const PROJECT_ID = 'YOUR_ACTUAL_PROJECT_ID';
 
 // Wagmi config
 export const config = createConfig({
