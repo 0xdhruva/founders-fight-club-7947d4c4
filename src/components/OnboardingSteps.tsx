@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { useToast } from './ui/use-toast';
-import { useAccount, useConnect } from 'wagmi';
-import { InjectedConnector } from 'wagmi/connectors/injected';
+import { useConnectWallet } from '@coinbase/onchainkit';
 
 interface OnboardingStepsProps {
   projectId: string;
@@ -12,15 +11,12 @@ const OnboardingSteps = ({ projectId }: OnboardingStepsProps) => {
   const [step1Complete, setStep1Complete] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const { toast } = useToast();
-  const { address } = useAccount();
-  const { connect } = useConnect({
-    connector: new InjectedConnector(),
-  });
+  const { connect, address } = useConnectWallet();
 
   const handleWalletConnect = async () => {
     try {
       setIsConnecting(true);
-      connect();
+      await connect();
       
       if (address) {
         setStep1Complete(true);
