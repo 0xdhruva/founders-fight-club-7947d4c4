@@ -1,9 +1,11 @@
+import { Button } from "./ui/button";
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { useToast } from "./ui/use-toast";
 import { Wallet } from "lucide-react";
 
 export default function WalletButton() {
   const { address, isConnected } = useAccount();
+  const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
   const { toast } = useToast();
 
@@ -14,16 +16,27 @@ export default function WalletButton() {
         title: "Wallet disconnected",
         description: "Your wallet has been disconnected successfully."
       });
+    } else {
+      const connector = connectors[0]; // injected connector (MetaMask)
+      try {
+        connect({ connector });
+      } catch (error) {
+        toast({
+          title: "Connection Error",
+          description: "Failed to connect wallet. Please try again.",
+          variant: "destructive"
+        });
+      }
     }
   };
 
   return (
-    <button
+    <Button 
       onClick={handleClick}
-      className="w-full button-primary text-xl tracking-wider py-3 block text-center"
+      className="bg-ffc-red hover:bg-ffc-red/90 text-white"
     >
-      <Wallet className="inline-block mr-2" />
+      <Wallet className="mr-2" />
       {isConnected ? `${address?.slice(0, 6)}...${address?.slice(-4)}` : 'Connect Wallet'}
-    </button>
+    </Button>
   );
 }

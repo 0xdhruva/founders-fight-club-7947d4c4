@@ -7,9 +7,6 @@ import { WagmiConfig } from 'wagmi';
 import { config } from './config/wagmi';
 import Index from "./pages/Index";
 
-// Initialize Web3Modal configuration
-import './config/wagmi';
-
 const queryClient = new QueryClient();
 
 const App = () => (
