@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button } from './ui/button';
 import { useToast } from './ui/use-toast';
 import { useAccount, useConnect } from 'wagmi';
-import { InjectedConnector } from 'wagmi/connectors/injected';
+import { injected } from 'wagmi/connectors';
 
 interface OnboardingStepsProps {
   projectId: string;
@@ -12,13 +12,11 @@ const OnboardingSteps = ({ projectId }: OnboardingStepsProps) => {
   const [walletConnected, setWalletConnected] = useState(false);
   const { toast } = useToast();
   const { address } = useAccount();
-  const { connect } = useConnect({
-    connector: new InjectedConnector(),
-  });
+  const { connectAsync } = useConnect();
 
   const handleWalletConnect = async () => {
     try {
-      connect();
+      await connectAsync({ connector: injected() });
       setWalletConnected(true);
       toast({
         title: "Success",
