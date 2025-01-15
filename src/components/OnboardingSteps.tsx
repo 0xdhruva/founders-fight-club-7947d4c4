@@ -13,9 +13,8 @@ const OnboardingSteps = ({ projectId }: OnboardingStepsProps) => {
     try {
       const walletKit = new WalletKit({
         name: projectId,
-        network: 'mainnet',
       });
-      await walletKit.connect();
+      await walletKit.connectWallet();
       setStep1Complete(true);
       console.log('Wallet connected successfully');
     } catch (error) {
