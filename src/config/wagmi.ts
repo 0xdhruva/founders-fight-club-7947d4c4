@@ -2,8 +2,8 @@ import { createConfig, http } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { createWeb3Modal } from '@web3modal/wagmi';
 
-// Replace YOUR_ACTUAL_PROJECT_ID with the ID you copied from WalletConnect Cloud
-const PROJECT_ID = 'YOUR_ACTUAL_PROJECT_ID';
+// Get the project ID from Supabase secrets
+const PROJECT_ID = import.meta.env.VITE_WALLETCONNECT_PROJECT_ID;
 
 // Wagmi config
 export const config = createConfig({
