@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button } from './ui/button';
 import { WalletKit } from '@reown/walletkit';
 import { Core } from '@walletconnect/core';
+import { useToast } from './ui/use-toast';
 
 interface OnboardingStepsProps {
   projectId: string;
@@ -9,9 +10,12 @@ interface OnboardingStepsProps {
 
 const OnboardingSteps = ({ projectId }: OnboardingStepsProps) => {
   const [step1Complete, setStep1Complete] = useState(false);
+  const [isConnecting, setIsConnecting] = useState(false);
+  const { toast } = useToast();
 
   const handleWalletConnect = async () => {
     try {
+      setIsConnecting(true);
       const core = new Core({
         projectId: projectId
       });
@@ -26,11 +30,25 @@ const OnboardingSteps = ({ projectId }: OnboardingStepsProps) => {
         }
       });
 
-      await walletKit.connect();
-      setStep1Complete(true);
-      console.log('Wallet connected successfully');
+      // Initialize wallet connection
+      const session = await walletKit.signIn();
+      
+      if (session) {
+        setStep1Complete(true);
+        toast({
+          title: "Success",
+          description: "Wallet connected successfully",
+        });
+      }
     } catch (error) {
       console.error('Error connecting wallet:', error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to connect wallet. Please try again.",
+      });
+    } finally {
+      setIsConnecting(false);
     }
   };
 
@@ -48,9 +66,9 @@ const OnboardingSteps = ({ projectId }: OnboardingStepsProps) => {
         <Button
           onClick={handleWalletConnect}
           className="w-full text-xl tracking-wider py-3"
-          disabled={step1Complete}
+          disabled={step1Complete || isConnecting}
         >
-          {step1Complete ? 'Wallet Connected' : 'Connect Wallet'}
+          {step1Complete ? 'Wallet Connected' : isConnecting ? 'Connecting...' : 'Connect Wallet'}
         </Button>
       </div>
 
