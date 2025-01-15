@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { WalletKit } from '@reown/walletkit';
+import { Core } from '@walletconnect/core';
 
 interface OnboardingStepsProps {
   projectId: string;
@@ -11,10 +12,21 @@ const OnboardingSteps = ({ projectId }: OnboardingStepsProps) => {
 
   const handleWalletConnect = async () => {
     try {
-      const walletKit = new WalletKit({
-        name: projectId,
+      const core = new Core({
+        projectId: projectId
       });
-      await walletKit.connectWallet();
+
+      const walletKit = new WalletKit({
+        core,
+        metadata: {
+          name: 'Founders Fight Club',
+          description: 'Connect your wallet to join Founders Fight Club',
+          url: window.location.origin,
+          icons: ['https://walletconnect.com/walletconnect-logo.png']
+        }
+      });
+
+      await walletKit.connect();
       setStep1Complete(true);
       console.log('Wallet connected successfully');
     } catch (error) {
