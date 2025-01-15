@@ -20,7 +20,6 @@ const Index = () => {
   };
 
   const handleWalletConnect = async () => {
-    // Placeholder for wallet connect functionality
     console.log('Connecting wallet...');
     setStep1Complete(true);
   };
@@ -30,51 +29,51 @@ const Index = () => {
       <Navbar />
       <ParticleBackground />
 
-      <section className="pt-32 pb-20 px-6">
-        <div className="max-w-3xl mx-auto">
+      <section className="min-h-screen pt-20 pb-8 px-4 md:px-6 flex items-center">
+        <div className="max-w-3xl mx-auto w-full">
           {!success ? (
             <>
               {/* Rules Section */}
-              <div className="space-y-6 mb-16">
-                <p className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
+              <div className="space-y-4 md:space-y-6 mb-8 md:mb-16">
+                <p className="text-xl md:text-3xl text-ffc-white/90 tracking-wider">
                   1. You do not talk about Founders Fight Club
                 </p>
-                <p className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
+                <p className="text-xl md:text-3xl text-ffc-white/90 tracking-wider">
                   2. You DO NOT talk about Founders Fight Club
                 </p>
-                <p className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
+                <p className="text-xl md:text-3xl text-ffc-white/90 tracking-wider">
                   3. Put your money where your mouth is
                 </p>
-                <p className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
+                <p className="text-xl md:text-3xl text-ffc-white/90 tracking-wider">
                   4. Submit three proofs of workouts every week
                 </p>
-                <p className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
-                  5. If you fail, you're out
+                <p className="text-xl md:text-3xl text-ffc-white/90 tracking-wider">
+                  5. Tapping out is Ok, Quitting is not
                 </p>
-                <p className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
+                <p className="text-xl md:text-3xl text-ffc-white/90 tracking-wider">
                   6. One week at a time
                 </p>
               </div>
 
               {/* Password Form */}
-              <form onSubmit={handlePasswordSubmit} className="mt-12 space-y-6">
+              <form onSubmit={handlePasswordSubmit} className="mt-8 space-y-6">
                 <div className="relative">
                   <input
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Password please"
-                    className="w-full bg-transparent border-b-2 border-ffc-steel/30 px-4 py-3 text-2xl tracking-wider
+                    className="w-full bg-transparent border-b-2 border-ffc-steel/30 px-4 py-3 text-xl md:text-2xl tracking-wider
                               focus:outline-none focus:border-ffc-red/50 transition-colors
                               placeholder:text-ffc-steel/50"
                   />
                 </div>
                 {error && (
-                  <p className="text-ffc-red text-xl tracking-wider">{error}</p>
+                  <p className="text-ffc-red text-lg md:text-xl tracking-wider">{error}</p>
                 )}
                 <button
                   type="submit"
-                  className="w-full button-primary text-2xl tracking-wider py-4"
+                  className="w-full button-primary text-xl md:text-2xl tracking-wider py-3 md:py-4"
                 >
                   Enter
                 </button>
