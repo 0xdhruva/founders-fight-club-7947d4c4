@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { useToast } from './ui/use-toast';
-import { useConnectWallet } from '@coinbase/onchainkit';
+import { useConnect } from '@coinbase/onchainkit';
 
 interface OnboardingStepsProps {
   projectId: string;
@@ -11,7 +11,7 @@ const OnboardingSteps = ({ projectId }: OnboardingStepsProps) => {
   const [step1Complete, setStep1Complete] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const { toast } = useToast();
-  const { connect, address } = useConnectWallet();
+  const { connect, address } = useConnect();
 
   const handleWalletConnect = async () => {
     try {
