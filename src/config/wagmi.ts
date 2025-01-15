@@ -2,7 +2,7 @@ import { createConfig, http } from 'wagmi';
 import { base } from 'wagmi/chains';
 import { createWeb3Modal } from '@web3modal/wagmi';
 
-// Since this is a public key, it's fine to store it directly in the code
+// Replace this with your actual WalletConnect project ID
 const PROJECT_ID = 'YOUR_PROJECT_ID';
 
 // Wagmi config
@@ -27,5 +27,4 @@ createWeb3Modal({
   },
 });
 
-// Export for use in other files
 export { PROJECT_ID };
