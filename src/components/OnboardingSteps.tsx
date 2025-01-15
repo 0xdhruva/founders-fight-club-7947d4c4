@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Button } from './ui/button';
-import { WalletKit } from '@reown/walletkit';
-import { Core } from '@walletconnect/core';
 import { useToast } from './ui/use-toast';
+import { useAccount, useConnect } from 'wagmi';
+import { InjectedConnector } from 'wagmi/connectors/injected';
 
 interface OnboardingStepsProps {
   projectId: string;
@@ -12,28 +12,17 @@ const OnboardingSteps = ({ projectId }: OnboardingStepsProps) => {
   const [step1Complete, setStep1Complete] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const { toast } = useToast();
+  const { address } = useAccount();
+  const { connect } = useConnect({
+    connector: new InjectedConnector(),
+  });
 
   const handleWalletConnect = async () => {
     try {
       setIsConnecting(true);
-      const core = new Core({
-        projectId: projectId
-      });
-
-      const walletKit = new WalletKit({
-        core,
-        metadata: {
-          name: 'Founders Fight Club',
-          description: 'Connect your wallet to join Founders Fight Club',
-          url: window.location.origin,
-          icons: ['https://walletconnect.com/walletconnect-logo.png']
-        }
-      });
-
-      // Initialize wallet connection
-      const session = await walletKit.connect();
+      connect();
       
-      if (session) {
+      if (address) {
         setStep1Complete(true);
         toast({
           title: "Success",
