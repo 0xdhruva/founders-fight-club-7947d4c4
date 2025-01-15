@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Navbar from '../components/Navbar';
 import ParticleBackground from '../components/ParticleBackground';
+import WalletButton from '../components/WalletButton';
 
 const Index = () => {
   const [password, setPassword] = useState('');
@@ -17,11 +18,6 @@ const Index = () => {
       setError('You are not worthy.');
       setPassword('');
     }
-  };
-
-  const handleWalletConnect = async () => {
-    console.log('Connecting wallet...');
-    setStep1Complete(true);
   };
 
   return (
@@ -88,15 +84,9 @@ const Index = () => {
               {/* Step 1 */}
               <div className="space-y-4">
                 <h3 className="text-2xl md:text-3xl text-ffc-white/90 tracking-wider">
-                  Step 1: Stake $100 USDC
+                  Step 1: Connect Wallet
                 </h3>
-                <button
-                  onClick={handleWalletConnect}
-                  className="w-full button-primary text-xl tracking-wider py-3"
-                  disabled={step1Complete}
-                >
-                  {step1Complete ? 'Wallet Connected' : 'Connect Wallet'}
-                </button>
+                <WalletButton />
               </div>
 
               {/* Step 2 */}
@@ -108,8 +98,7 @@ const Index = () => {
                   href="https://t.me/+K74j-Q0Gwkw5NmI1"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`w-full button-primary text-xl tracking-wider py-3 block text-center
-                    ${!step1Complete ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''}`}
+                  className="w-full button-primary text-xl tracking-wider py-3 block text-center"
                 >
                   Join Telegram Group
                 </a>
