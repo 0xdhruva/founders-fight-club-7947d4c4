@@ -60,13 +60,13 @@
 }
 
 .button-primary {
-  @apply bg-ffc-red text-ffc-white px-6 py-3 rounded-md font-semibold
+  @apply bg-ffc-red text-ffc-white px-6 py-3 rounded-none font-['Bebas_Neue']
     transition-all duration-300 hover:bg-ffc-red/90 hover:shadow-lg
     hover:shadow-ffc-red/20 active:transform active:scale-95;
 }
 
 .button-secondary {
-  @apply bg-ffc-steel/20 text-ffc-white px-6 py-3 rounded-md font-semibold
+  @apply bg-ffc-steel/20 text-ffc-white px-6 py-3 rounded-none font-['Bebas_Neue']
     transition-all duration-300 hover:bg-ffc-steel/30 hover:shadow-lg
     hover:shadow-ffc-steel/20 active:transform active:scale-95;
 }
